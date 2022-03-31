@@ -16,12 +16,25 @@
 
 class TicTacToe
 
-    def initialize ()
-        @playerOne = "X"
-        @playerTwo = "O"
-        @board = [[],
-                  [],
-                  []]
+    board = [[],[],[]]
+    turn = 1
+    shape = "O"
+    game_end = true
+
+    def playing_board
+       puts "\t 1     2     3"
+       puts "    1 |  #{board[0][0]}  |  #{board[0][1]}  |  #{board[0][2]}  |"
+       puts "_________________________"
+       puts "    2 |  #{board[1][0]}  |  #{board[1][1]}  |  #{board[1][2]}  |"
+       puts "_________________________"
+       puts "    3 |  #{board[2][0]}  |  #{board[2][1]}  |  #{board[2][2]}  |"
+    end
+
+    def play_game
+
+        game_end = false
+
+
     end
 
 end
