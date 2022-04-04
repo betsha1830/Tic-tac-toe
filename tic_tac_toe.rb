@@ -17,7 +17,7 @@
 
 class TicTacToe
   def initialize
-    @board = [['', '', ''], ['', '', ''], ['', '', '']]
+    @board = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
     @turn = 1
     @shape = 'O'
     @game_end = true
@@ -40,7 +40,7 @@ class TicTacToe
     input_position = []
     temp_arr.each { |item| input_position.push(item.to_i) }
     temp_arr = []
-    until @board[input_position[0]][input_position[1]] == ''
+    until @board[input_position[0]-1][input_position[1]-1] == " "
       puts 'Position already taken. Input another field.'
       input = gets.chomp
       temp_arr = input.split('')
@@ -48,40 +48,71 @@ class TicTacToe
       temp_arr.each { |item| input_position.push(item.to_i) }
       temp_arr = []
     end
-    @board[input_position[0]][input_position[1]] = @shape
+    @board[input_position[0]-1][input_position[1]-1] = @shape
     @turn += 1
   end
 
   def check_game
-    @board.each do |item|
-      if item.all?(@shape)
-        puts "#{@shape} wins."
-      end
+
+    # CASES
+    # 1- Check game if it's a tie or in it ended with a win/loss.
+
+    # Horizontal Check
+    if (@board[0][0] == @shape && @board[0][1] == @shape && @board[0][2] == @shape)
       @game_end = true
+      puts "#{@shape} wins."
+    elsif (@board[1][0] == @shape && @board[1][1] == @shape && @board[1][2] == @shape)
+      @game_end = true
+      puts "#{@shape} wins."
+    elsif (@board[2][0] == @shape && @board[2][1] == @shape && @board[2][2] == @shape)
+      @game_end = true
+      puts "#{@shape} wins."
+
+    # Vertical Check
+
+    elsif (@board[0][0] == @shape && @board[1][0] == @shape && @board[2][0] == @shape)
+      @game_end = true
+      puts "#{@shape} wins."
+    elsif (@board[0][1] == @shape && @board[1][1] == @shape && @board[2][1] == @shape)
+      @game_end = true
+      puts "#{@shape} wins."
+    elsif (@board[0][2] == @shape && @board[1][2] == @shape && @board[2][2] == @shape)
+      @game_end = true
+      puts "#{@shape} wins."
+
+      # Diagonal Check
+
+    elsif (@board[0][0] == @shape && @board[1][1] == @shape && @board[2][2] == @shape)
+      @game_end = true
+      puts "#{@shape} wins."
+    elsif (@board[0][2] == @shape && @board[1][1] == @shape && @board[2][0] == @shape)
+      @game_end = true
+      puts "#{@shape} wins."
     end
-    if ((@board[0][0] == @board[1][0]) && @board[0][0] == @board[2][0])
-        game_end = true
-        puts "#{@shape} wins."
-    elsif ((@board[0][1] == @board[1][1]) && @board[0][1] == @board[2][1])
-        game_end = true
-        puts "#{@shape} wins."
-    elsif ((@board[0][2] == @board[1][2]) && @board[0][2] == @board[2][2])
-        game_end = true
-        puts "#{@shape} wins."
-    elsif ((@board[0][0] == @board[1][1]) && @board[0][0] == @board[2][2])
-        game_end = true
-        puts "#{@shape} wins."
-    elsif ((@board[1][2] == @board[1][1]) && @board[1][2] == @board[2][0])
-        game_end = true
-        puts "#{@shape} wins."
+
+    counter = 0
+
+    @board.each do |item|
+      counter += 1 if !(item.any?(" "))
     end
+    
+    if (counter == 3)
+      @game_end = true
+      puts "Game ended in a tie."
+      return 
+    end
+
   end
 
   def play_game
-    game_end = false
+    @game_end = false
+    until @game_end == true
+        playing_board
+        move
+        check_game
+    end
   end
 end
 
 x = TicTacToe.new
-puts x.move
-puts x.check_game
+puts x.play_game
