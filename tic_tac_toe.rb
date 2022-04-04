@@ -36,19 +36,25 @@ class TicTacToe
     @shape = (@turn % 2).even? ? 'X' : 'O'
     puts "It's #{@shape}'s turn."
     input = gets.chomp
+
+    until (input.match(/[1-3][1-3]/))
+      puts "Invalid input. Please enter a number within the range of 1-3."
+      input = gets.chomp
+    end
+
     temp_arr = input.split('')
-    input_position = []
-    temp_arr.each { |item| input_position.push(item.to_i) }
+    @input_position = []
+    temp_arr.each { |item| @input_position.push(item.to_i) }
     temp_arr = []
-    until @board[input_position[0]-1][input_position[1]-1] == " "
+    until @board[@input_position[0]-1][@input_position[1]-1] == " "
       puts 'Position already taken. Input another field.'
       input = gets.chomp
       temp_arr = input.split('')
-      input_position = []
-      temp_arr.each { |item| input_position.push(item.to_i) }
+      @input_position = []
+      temp_arr.each { |item| @input_position.push(item.to_i) }
       temp_arr = []
     end
-    @board[input_position[0]-1][input_position[1]-1] = @shape
+    @board[@input_position[0]-1][@input_position[1]-1] = @shape
     @turn += 1
   end
 
@@ -99,7 +105,6 @@ class TicTacToe
     if (counter == 3)
       @game_end = true
       puts "Game ended in a tie."
-      return 
     end
 
   end
@@ -110,6 +115,15 @@ class TicTacToe
         playing_board
         move
         check_game
+    end
+    if (@game_end == true)
+      puts "Do you want to start a new game? y/n"
+      input = gets.chomp
+      if (input.downcase == "y")
+        initialize
+        play_game
+      else return "Ciao!"
+      end
     end
   end
 end
