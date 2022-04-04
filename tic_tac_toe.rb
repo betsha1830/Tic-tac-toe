@@ -127,6 +127,3 @@ class TicTacToe
     end
   end
 end
-
-x = TicTacToe.new
-puts x.play_game
